@@ -1,0 +1,21 @@
+server:
+  port: 8443
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    consul:
+      discovery:
+        enabled: true
+      host: localhost
+      port: 8500
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/v1/auth/**
+        - id: reservation-service
+          uri: lb://reservation-service
+          predicates:
+            - Path=/api/v1/bookings/**
